@@ -60,7 +60,7 @@ class NewVisitorTest(LiveServerTestCase):
         # 页面再次更新,清单中显示了这两个待办事项
         self.check_for_row_in_list_table('1: Buy peacock feathers')
         self.check_for_row_in_list_table('2: Use peacock feathers to make a fly')
-
+        
         # 现在一个叫作弗朗西斯的新用户访问了网站
 
         ## 我们使用一个新浏览器会话
