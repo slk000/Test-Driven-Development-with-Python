@@ -37,3 +37,6 @@ class FunctionalTest(StaticLiveServerTestCase):
         # )
         # same as
         self.assertIn(row_text, [row.text for row in rows])
+    
+    def get_item_input_box(self):
+        return self.browser.find_element_by_id('id_text')
