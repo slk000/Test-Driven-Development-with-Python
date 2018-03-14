@@ -6,34 +6,34 @@ from django.utils.html import escape
 
 from lists.views import home_page
 from lists.models import Item, List
+from lists.forms import ItemForm
 
 # Create your tests here.
 
 
 class HomePageTest(TestCase):
-    
+    maxDiff = None
     def remove_csrf(self, html):
         import re
         csrf_regex = r'<input[^>]+csrfmiddlewaretoken[^>]+>'
         return re.sub(csrf_regex, '', html)
 
-    def test_root_url_resolves_to_home_page_view(self):
-        found = resolve('/')
-        self.assertEqual(found.func, home_page)
-
-    def test_home_page_return_correct_html(self):
+    def test_home_page_renders_home_template(self):
         request = HttpRequest()
         response = home_page(request)
-        # self.assertTrue(response.content.startswith(b'<html>'))
-        # self.assertIn(b'<title>To-Do lists</title>', response.content)
-        # self.assertTrue(response.content.strip().endswith(b'</html>'))
-        # 不要测试常量
-    
-        expected_html = render_to_string('home.html')
-        self.assertEqual(
+        expected_html = render_to_string('home.html', {'form': ItemForm()})
+        # self.assertEqual(
+        #     self.remove_csrf(response.content.decode()),
+        #     self.remove_csrf(expected_html),
+        # )
+        self.assertMultiLineEqual(
             self.remove_csrf(response.content.decode()),
-            self.remove_csrf(expected_html),
+            self.remove_csrf(expected_html)
         )
+
+    def test_home_page_uses_item_form(self):
+        response = self.client.get('/')
+        self.assertIsInstance(response.context['form'], ItemForm)
 
 
 class ListViewTest(TestCase):
