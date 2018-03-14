@@ -19,6 +19,5 @@ from lists import views as ListsViews
 
 urlpatterns = [
     url(r'(\d+)/$', ListsViews.view_list, name='view_list'),
-    url(r'(\d+)/add_item$', ListsViews.add_item, name='add_item'),
     url(r'new$', ListsViews.new_list, name='new_list'),
 ]
